@@ -16,7 +16,8 @@ load_dotenv()
 def get_stock_price(symbol):
     ticker = yf.Ticker(symbol)
     today = ticker.history(period="1d")
-    return round(today['Close'][0], 2)
+    price = today['Close'].iloc[-1]
+    return round(price, 2)
 
 def get_price_change_percent(symbol, days_ago):
     ticker = yf.Ticker(symbol)
@@ -157,7 +158,7 @@ agent = OpenAIFunctionsAgent(
 
 agent_executor = AgentExecutor(
     agent=agent,
-    verbose=True,
+    verbose=False,
     tools=tools,
     memory=memory
 )
